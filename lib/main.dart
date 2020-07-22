@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_basic_network/network.dart';
 import 'package:flutter_basic_network/post.dart';
+import 'package:flutter_basic_network/post_state.dart';
+import 'package:flutter_basic_network/repo.dart';
 import 'package:http/http.dart' as http;
 
 void main() {
@@ -28,46 +30,70 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  Future<List<Post>> lastPost;
-  Network network = Network(httpClient: http.Client());
+  final scrollController = ScrollController();
+  final scrollThreshold = 200.0;
+  PostRepository repository =
+      PostRepository(network: Network(httpClient: http.Client()));
 
   @override
   void initState() {
     super.initState();
-    lastPost = network.loadPosts(20, 20);
+    scrollController.addListener(onScroll);
+    repository.fetchPost();
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: FutureBuilder(
-          future: lastPost,
+      child: StreamBuilder(
+          stream: repository.postStateSubject,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              final posts = snapshot.data;
-              if (posts.isEmpty) {
+              final state = snapshot.data;
+              if (state is PostFailure) {
                 return Center(
-                  child: Text('no posts'),
+                  child: Text('failed to fetch posts'),
                 );
               }
-              return ListView.builder(
-                itemBuilder: (BuildContext context, int index) {
-                  return index >= posts.length
-                      ? BottomLoader()
-                      : PostWidget(post: posts[index]);
-                },
-                itemCount: posts.length,
-              );
-            } else if (snapshot.hasError) {
-              return Text("${snapshot.error}");
+              if (state is PostSuccess) {
+                if (state.posts.isEmpty) {
+                  return Center(
+                    child: Text('no posts'),
+                  );
+                }
+                return ListView.builder(
+                  itemBuilder: (BuildContext context, int index) {
+                    return index >= state.posts.length
+                        ? BottomLoader()
+                        : PostWidget(post: state.posts[index]);
+                  },
+                  itemCount: state.hasReachedMax
+                      ? state.posts.length
+                      : state.posts.length + 1,
+                  controller: scrollController,
+                );
+              }
             }
-
-            // By default, show a loading spinner.
             return Center(
               child: CircularProgressIndicator(),
             );
           }),
     );
+  }
+
+  @override
+  void dispose() {
+    scrollController.dispose();
+    repository.dispose();
+    super.dispose();
+  }
+
+  void onScroll() {
+    final maxScroll = scrollController.position.maxScrollExtent;
+    final currentScroll = scrollController.position.pixels;
+    if (maxScroll - currentScroll <= scrollThreshold) {
+      repository.fetchPost();
+    }
   }
 }
 
@@ -76,6 +102,7 @@ class BottomLoader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.center,
+      padding: EdgeInsets.all(8),
       child: Center(
         child: SizedBox(
           width: 33,
