@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_basic_network/network.dart';
-import 'package:flutter_basic_network/post.dart';
-import 'package:flutter_basic_network/post_state.dart';
-import 'package:flutter_basic_network/repo.dart';
+import 'package:flutter_basic_network/data/network.dart';
+import 'package:flutter_basic_network/data/repo.dart';
+import 'package:flutter_basic_network/model/post.dart';
+import 'package:flutter_basic_network/model/post_state.dart';
 import 'package:http/http.dart' as http;
-import 'date.dart';
+import 'package:flutter_basic_network/extension/date.dart';
 
 PostRepository repository =
-PostRepository(network: Network(httpClient: http.Client()));
+    PostRepository(network: Network(httpClient: http.Client()));
 
 void main() {
   runApp(MyApp());
@@ -23,9 +23,7 @@ class MyApp extends StatelessWidget {
           title: Text('Posts'),
         ),
         body: RefreshIndicator(
-            key: refreshIndicatorKey,
-            onRefresh: refresh,
-            child: HomePage()),
+            key: refreshIndicatorKey, onRefresh: refresh, child: HomePage()),
       ),
     );
   }
@@ -142,7 +140,7 @@ class PostWidget extends StatelessWidget {
 }
 
 final GlobalKey<RefreshIndicatorState> refreshIndicatorKey =
-new GlobalKey<RefreshIndicatorState>();
+    new GlobalKey<RefreshIndicatorState>();
 
 Future<void> refresh() {
   return repository.refreshPost();

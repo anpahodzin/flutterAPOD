@@ -2,11 +2,10 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:flutter_basic_network/post.dart';
+import 'package:flutter_basic_network/extension/date.dart';
+import 'package:flutter_basic_network/model/post.dart';
 import 'package:http/http.dart' as http;
 import 'package:meta/meta.dart';
-
-import 'date.dart';
 
 class Network {
   final http.Client httpClient;

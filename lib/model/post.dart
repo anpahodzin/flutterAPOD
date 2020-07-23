@@ -1,8 +1,5 @@
-import 'dart:developer';
-
 import 'package:equatable/equatable.dart';
-
-import 'date.dart';
+import 'package:flutter_basic_network/extension/date.dart';
 
 class Post extends Equatable {
   final String copyright;
