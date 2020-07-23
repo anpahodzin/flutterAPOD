@@ -12,15 +12,18 @@ class PostRepository {
   final BehaviorSubject<PostState> postStateSubject =
       BehaviorSubject.seeded(PostInitial());
 
-  void fetchPost() async {
+  Future<void> fetchPost() async {
     try {
       final lastState = postStateSubject.value;
-      if (lastState is PostInitial || lastState is PostFailure) {
+      if (lastState is PostInitial ||
+          lastState is PostFailure ||
+          lastState is PostRefresh) {
         final posts = await network.loadPosts(0, postLimit);
         postStateSubject.add(PostSuccess(posts: posts, hasReachedMax: false));
         return;
       }
-      if (lastState is PostSuccess) {
+      if (lastState is PostSuccess && !lastState.hasReachedMax) {
+        postStateSubject.add(PostLoading.fromPostSuccess(lastState));
         final posts =
             await network.loadPosts(lastState.posts.length, postLimit);
         final newState = posts.isEmpty
@@ -32,14 +35,15 @@ class PostRepository {
         postStateSubject.add(newState);
         return;
       }
-    } catch (error) {
-      postStateSubject.add(PostFailure());
+    } on Exception catch (error) {
+      postStateSubject.add(PostFailure(error.toString()));
     }
   }
 
-  void refreshPost(){
-    postStateSubject.value = PostInitial();
-    fetchPost();
+  Future<void> refreshPost() {
+    final lastState = postStateSubject.value;
+    postStateSubject.value = PostRefresh.fromPostSuccess(lastState);
+    return fetchPost();
   }
 
   void dispose() {

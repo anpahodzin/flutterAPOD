@@ -5,6 +5,9 @@ import 'package:flutter_basic_network/post_state.dart';
 import 'package:flutter_basic_network/repo.dart';
 import 'package:http/http.dart' as http;
 
+PostRepository repository =
+PostRepository(network: Network(httpClient: http.Client()));
+
 void main() {
   runApp(MyApp());
 }
@@ -18,7 +21,10 @@ class MyApp extends StatelessWidget {
         appBar: AppBar(
           title: Text('Posts'),
         ),
-        body: HomePage(),
+        body: RefreshIndicator(
+            key: refreshIndicatorKey,
+            onRefresh: refresh,
+            child: HomePage()),
       ),
     );
   }
@@ -32,8 +38,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final scrollController = ScrollController();
   final scrollThreshold = 200.0;
-  PostRepository repository =
-      PostRepository(network: Network(httpClient: http.Client()));
 
   @override
   void initState() {
@@ -55,7 +59,7 @@ class _HomePageState extends State<HomePage> {
                   child: Text('failed to fetch posts'),
                 );
               }
-              if (state is PostSuccess) {
+              if (state is PostDataState) {
                 if (state.posts.isEmpty) {
                   return Center(
                     child: Text('no posts'),
@@ -134,4 +138,11 @@ class PostWidget extends StatelessWidget {
       dense: true,
     );
   }
+}
+
+final GlobalKey<RefreshIndicatorState> refreshIndicatorKey =
+new GlobalKey<RefreshIndicatorState>();
+
+Future<void> refresh() {
+  return repository.refreshPost();
 }
