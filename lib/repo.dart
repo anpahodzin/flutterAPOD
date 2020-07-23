@@ -5,7 +5,7 @@ import 'package:rxdart/rxdart.dart';
 
 class PostRepository {
   final Network network;
-  static const int postLimit = 10;
+  static const int POST_COUNT = 1;
 
   PostRepository({@required this.network});
 
@@ -18,14 +18,18 @@ class PostRepository {
       if (lastState is PostInitial ||
           lastState is PostFailure ||
           lastState is PostRefresh) {
-        final posts = await network.loadPosts(0, postLimit);
+        final endDate = DateTime.now();
+        final startDate = endDate.add(Duration(days: -POST_COUNT));
+        final posts = await network.loadPosts(startDate,endDate);
         postStateSubject.add(PostSuccess(posts: posts, hasReachedMax: false));
         return;
       }
       if (lastState is PostSuccess && !lastState.hasReachedMax) {
         postStateSubject.add(PostLoading.fromPostSuccess(lastState));
+        final endDate = lastState.posts.last.date.add(Duration(days: -1));
+        final startDate = endDate.add(Duration(days: -POST_COUNT));
         final posts =
-            await network.loadPosts(lastState.posts.length, postLimit);
+            await network.loadPosts(startDate,endDate);
         final newState = posts.isEmpty
             ? lastState.copyWith(hasReachedMax: true)
             : PostSuccess(

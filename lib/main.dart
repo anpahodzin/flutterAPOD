@@ -4,6 +4,7 @@ import 'package:flutter_basic_network/post.dart';
 import 'package:flutter_basic_network/post_state.dart';
 import 'package:flutter_basic_network/repo.dart';
 import 'package:http/http.dart' as http;
+import 'date.dart';
 
 PostRepository repository =
 PostRepository(network: Network(httpClient: http.Client()));
@@ -129,12 +130,12 @@ class PostWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: Text(
-        post.id.toString(),
+        post.date.formatDateApod(),
         style: TextStyle(fontSize: 10.0),
       ),
       title: Text('${post.title}'),
       isThreeLine: true,
-      subtitle: Text(post.body),
+      subtitle: Text(post.explanation),
       dense: true,
     );
   }
