@@ -17,8 +17,7 @@ class Post extends Equatable {
       this.hdurl,
       this.mediaType,
       this.title,
-      this.url})
-      : super([copyright, date, explanation, hdurl, mediaType, title, url]);
+      this.url});
 
   Post.fromRaw(dynamic rawPost)
       : copyright = rawPost['copyright'],
@@ -28,6 +27,10 @@ class Post extends Equatable {
         mediaType = rawPost['media_type'],
         title = rawPost['title'],
         url = rawPost['url'];
+
+  @override
+  List get props =>
+      [copyright, date, explanation, hdurl, mediaType, title, url];
 
   @override
   String toString() => 'Post { id: $date }';

@@ -5,7 +5,7 @@ abstract class PostState extends Equatable {
   PostState();
 
   @override
-  Set get props => Set();
+  List get props => [];
 }
 
 abstract class PostDataState extends PostState {
@@ -18,7 +18,7 @@ abstract class PostDataState extends PostState {
   });
 
   @override
-  Set get props => Set.from([posts, hasReachedMax]);
+  List get props => [posts, hasReachedMax];
 }
 
 class PostInitial extends PostState {}

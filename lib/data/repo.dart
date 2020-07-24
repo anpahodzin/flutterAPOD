@@ -5,7 +5,7 @@ import 'package:rxdart/rxdart.dart';
 
 class PostRepository {
   final Network network;
-  static const int POST_COUNT = 1;
+  static const int POST_COUNT = 10;
 
   PostRepository({@required this.network});
 
