@@ -33,6 +33,7 @@ dependencies:
   rxdart: ^0.24.1
   intl: ^0.16.1
   cached_network_image: ^2.2.0
+  sprintf: ^4.0.2
 
 dev_dependencies:
   flutter_test:

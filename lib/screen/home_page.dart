@@ -112,40 +112,45 @@ class PostWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
-        aspectRatio: 1.6,
-        child: Card(
-            margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            elevation: 4,
-            clipBehavior: Clip.antiAliasWithSaveLayer,
-            child: Column(children: [
-              Expanded(
-                  child: Container(
-                width: double.infinity,
-                child: CachedNetworkImage(
-                  fit: BoxFit.cover,
-                  imageUrl: post.url,
-                ),
-              )),
-              Container(
-                  child: ListTile(
-                leading: Text(
-                  post.date.toString(),
-                  style: TextStyle(fontSize: 10.0),
-                ),
-                title: Text(
-                  post.title,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                isThreeLine: true,
-                subtitle: Text(
-                  post.explanation,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                dense: true,
-              )),
-            ])));
+      aspectRatio: 1.6,
+      child: Card(
+        margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        elevation: 4,
+        clipBehavior: Clip.antiAliasWithSaveLayer,
+        child: Column(children: [
+          Expanded(
+            child: Container(
+              width: double.infinity,
+              child: CachedNetworkImage(
+                fit: BoxFit.cover,
+                imageUrl: post.url,
+              ),
+            ),
+          ),
+          Container(
+            color: (post.videoUrl == null) ? Colors.white : Colors.red,
+            child: ListTile(
+              leading: Text(
+                post.date.toString(),
+                style: TextStyle(fontSize: 10.0),
+              ),
+              title: Text(
+                post.title,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+              isThreeLine: true,
+              subtitle: Text(
+                post.explanation,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+              dense: true,
+            ),
+          ),
+        ]),
+      ),
+    );
   }
 }
 
