@@ -5,7 +5,7 @@ import 'package:flutter_basic_network/screen/home_page.dart';
 import 'package:http/http.dart' as http;
 
 final PostRepository repository =
-    PostRepository(network: Network(httpClient: http.Client()));
+    PostRepository(network: RemoteNetwork(httpClient: http.Client()));
 
 void main() {
   runApp(MyApp());

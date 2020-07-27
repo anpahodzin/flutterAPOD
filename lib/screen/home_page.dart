@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_basic_network/data/repo.dart';
+import 'package:flutter_basic_network/extension/date.dart';
 import 'package:flutter_basic_network/model/post.dart';
 import 'package:flutter_basic_network/model/post_state.dart';
 
@@ -117,35 +118,50 @@ class PostWidget extends StatelessWidget {
         margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         elevation: 4,
         clipBehavior: Clip.antiAliasWithSaveLayer,
-        child: Column(children: [
-          Expanded(
-            child: Container(
-              width: double.infinity,
-              child: CachedNetworkImage(
+        child: Stack(children: [
+          Container(
+            width: double.infinity,
+            child: CachedNetworkImage(
+              fit: BoxFit.cover,
+              imageUrl: post.url,
+              errorWidget: (context, url, error) => CachedNetworkImage(
                 fit: BoxFit.cover,
-                imageUrl: post.url,
+                imageUrl: post.hdurl,
               ),
             ),
           ),
-          Container(
-            color: (post.videoUrl == null) ? Colors.white : Colors.red,
-            child: ListTile(
-              leading: Text(
-                post.date.toString(),
-                style: TextStyle(fontSize: 10.0),
+          Align(
+            alignment: Alignment.bottomLeft,
+//            color: (post.videoUrl == null) ? Colors.white : Colors.red,
+            child: Container(
+              padding: EdgeInsets.only(top: 8),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter,
+                  colors: [Colors.black, Colors.transparent],
+                ),
               ),
-              title: Text(
-                post.title,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
+              child: ListTile(
+                leading: Text(
+                  post.date.formatDate(),
+                  style: postWidgetStyle,
+                ),
+                title: Text(
+                  post.title,
+                  maxLines: 2,
+                  style: postWidgetStyle.copyWith(fontSize: 14),
+                  overflow: TextOverflow.ellipsis,
+                ),
+                isThreeLine: true,
+                subtitle: Text(
+                  post.explanation,
+                  maxLines: 2,
+                  style: postWidgetStyle,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                dense: true,
               ),
-              isThreeLine: true,
-              subtitle: Text(
-                post.explanation,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
-              dense: true,
             ),
           ),
         ]),
@@ -156,3 +172,8 @@ class PostWidget extends StatelessWidget {
 
 final GlobalKey<RefreshIndicatorState> refreshIndicatorKey =
     new GlobalKey<RefreshIndicatorState>();
+
+final postWidgetStyle = TextStyle(
+  fontSize: 10.0,
+  color: Colors.white,
+);
