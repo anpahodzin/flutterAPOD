@@ -1,8 +1,8 @@
-import 'dart:developer';
-
 import 'package:equatable/equatable.dart';
-import 'package:flutter_basic_network/extension/date.dart';
-import 'package:sprintf/sprintf.dart';
+import 'package:flutter_basic_network/utils/date.dart';
+import 'package:flutter_basic_network/utils/youtube.dart';
+
+import 'media_type.dart';
 
 class Post extends Equatable {
   final String copyright;
@@ -13,6 +13,7 @@ class Post extends Equatable {
   final String title;
   final String url;
   final String videoUrl;
+  final bool favorite;
 
   Post({
     this.copyright,
@@ -23,10 +24,11 @@ class Post extends Equatable {
     this.title,
     this.url,
     this.videoUrl,
+    this.favorite,
   });
 
-  static Post fromRaw(dynamic rawPost) {
-    final mediaType = MediaTypeConverter.fromRaw(rawPost['media_type']);
+  factory Post.fromJson(Map<String, dynamic> rawPost) {
+    final mediaType = mediaTypeFromRaw(rawPost['media_type']);
     String hdurl, url, videoUrl;
     switch (mediaType) {
       case MediaType.IMAGE:
@@ -50,7 +52,35 @@ class Post extends Equatable {
       hdurl: hdurl,
       url: url,
       videoUrl: videoUrl,
+      favorite: rawPost['favorite'],
     );
+  }
+
+  factory Post.fromStorageJson(Map<String, dynamic> rawPost) => Post(
+        copyright: rawPost['copyright'],
+        date: DateTime.fromMillisecondsSinceEpoch(rawPost['date']),
+        explanation: rawPost['explanation'],
+        mediaType: mediaTypeFromRaw(rawPost['media_type']),
+        title: rawPost['title'],
+        hdurl: rawPost['hdurl'],
+        url: rawPost['url'],
+        videoUrl: rawPost['videoUrl'],
+        favorite: rawPost['favorite'] == 1,
+      );
+
+  Map<String, dynamic> toStorageJson() {
+    final like = (favorite != null && favorite) ? 1 : 0;
+    return {
+      "copyright": copyright,
+      "date": date.millisecondsSinceEpoch,
+      "explanation": explanation,
+      "hdurl": hdurl,
+      "media_type": mediaTypeToRaw(mediaType),
+      "title": title,
+      "url": url,
+      "videoUrl": videoUrl,
+      "favorite": like,
+    };
   }
 
   @override
@@ -58,33 +88,5 @@ class Post extends Equatable {
       [copyright, date, explanation, hdurl, mediaType, title, url];
 
   @override
-  String toString() => 'Post { id: $date }';
-}
-
-enum MediaType { IMAGE, VIDEO }
-
-class MediaTypeConverter {
-  static MediaType fromRaw(String mediaType) {
-    switch (mediaType) {
-      case "image":
-        return MediaType.IMAGE;
-      case "video":
-        return MediaType.VIDEO;
-    }
-    return null;
-  }
-}
-
-class YoutubeParser {
-  static const YOUTUBE_REGEX =
-      "^.*((youtu.be/)|(v/)|(/u/\\w/)|(embed/)|(watch\\?))\\??v?=?([^#&?]*).*";
-  static const YOUTUBE_PREVIEW = "https://img.youtube.com/vi/%s/sddefault.jpg";
-  static const YOUTUBE_PREVIEW_HD =
-      "https://img.youtube.com/vi/%s/hqdefault.jpg";
-
-  static String getImageLinkFromUrl(String format, String url) {
-    log("message format=$format url=$url");
-    final videoUrl = RegExp(YOUTUBE_REGEX).firstMatch(url)?.group(7);
-    return sprintf(format, [videoUrl]);
-  }
+  String toString() => 'Post { date: ${date.toIso8601String()} }';
 }

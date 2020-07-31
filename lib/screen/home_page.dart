@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_basic_network/data/repo.dart';
-import 'package:flutter_basic_network/extension/date.dart';
+import 'package:flutter_basic_network/utils/date.dart';
 import 'package:flutter_basic_network/model/post.dart';
 import 'package:flutter_basic_network/model/post_state.dart';
 

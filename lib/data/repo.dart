@@ -1,4 +1,6 @@
+import 'package:flutter_basic_network/data/database.dart';
 import 'package:flutter_basic_network/data/network.dart';
+import 'package:flutter_basic_network/model/post.dart';
 import 'package:flutter_basic_network/model/post_state.dart';
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
@@ -20,7 +22,13 @@ class PostRepository {
           lastState is PostRefresh) {
         final endDate = DateTime.now();
         final startDate = endDate.add(Duration(days: -POST_COUNT));
-        final posts = await network.loadPosts(startDate, endDate);
+        List<Post> posts;
+        try {
+          posts = await network.loadPosts(startDate, endDate);
+          await DBProvider.db.insertsPosts(posts);
+        } catch (e) {
+          posts = await DBProvider.db.getPosts(startDate, endDate);
+        }
         postStateSubject.add(PostSuccess(posts: posts, hasReachedMax: false));
         return;
       }
@@ -28,7 +36,13 @@ class PostRepository {
         postStateSubject.add(PostLoading.fromPostSuccess(lastState));
         final endDate = lastState.posts.last.date.add(Duration(days: -1));
         final startDate = endDate.add(Duration(days: -POST_COUNT));
-        final posts = await network.loadPosts(startDate, endDate);
+        List<Post> posts;
+        try {
+          posts = await network.loadPosts(startDate, endDate);
+          await DBProvider.db.insertsPosts(posts);
+        } catch (e) {
+          posts = await DBProvider.db.getPosts(startDate, endDate);
+        }
         final newState = posts.isEmpty
             ? lastState.copyWith(hasReachedMax: true)
             : PostSuccess(
