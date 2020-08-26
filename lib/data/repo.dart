@@ -22,13 +22,9 @@ class PostRepository {
           lastState is PostRefresh) {
         final endDate = DateTime.now();
         final startDate = endDate.add(Duration(days: -POST_COUNT));
-        List<Post> posts;
-        try {
-          posts = await network.loadPosts(startDate, endDate);
-          await DBProvider.db.insertsPosts(posts);
-        } catch (e) {
-          posts = await DBProvider.db.getPosts(startDate, endDate);
-        }
+        List<Post> posts = await network.loadPosts(startDate, endDate);
+        await DBProvider.db.insertsPosts(posts);
+        posts = await DBProvider.db.getPosts(startDate, endDate);
         postStateSubject.add(PostSuccess(posts: posts, hasReachedMax: false));
         return;
       }
@@ -36,13 +32,9 @@ class PostRepository {
         postStateSubject.add(PostLoading.fromPostSuccess(lastState));
         final endDate = lastState.posts.last.date.add(Duration(days: -1));
         final startDate = endDate.add(Duration(days: -POST_COUNT));
-        List<Post> posts;
-        try {
-          posts = await network.loadPosts(startDate, endDate);
-          await DBProvider.db.insertsPosts(posts);
-        } catch (e) {
-          posts = await DBProvider.db.getPosts(startDate, endDate);
-        }
+        List<Post> posts = await network.loadPosts(startDate, endDate);
+        await DBProvider.db.insertsPosts(posts);
+        posts = await DBProvider.db.getPosts(startDate, endDate);
         final newState = posts.isEmpty
             ? lastState.copyWith(hasReachedMax: true)
             : PostSuccess(
