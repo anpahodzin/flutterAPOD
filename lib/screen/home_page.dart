@@ -1,14 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_basic_network/data/repo.dart';
-import 'package:flutter_basic_network/utils/date.dart';
 import 'package:flutter_basic_network/model/post.dart';
 import 'package:flutter_basic_network/model/post_state.dart';
+import 'package:flutter_basic_network/utils/date.dart';
 
 class HomePage extends StatefulWidget {
   final PostRepository repository;
 
-  const HomePage({Key key, @required this.repository}) : super(key: key);
+  const HomePage({Key? key, required this.repository}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -108,7 +108,7 @@ class BottomLoader extends StatelessWidget {
 class PostWidget extends StatelessWidget {
   final Post post;
 
-  const PostWidget({Key key, @required this.post}) : super(key: key);
+  const PostWidget({Key? key, required this.post}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

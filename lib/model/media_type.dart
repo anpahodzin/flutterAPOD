@@ -7,16 +7,14 @@ MediaType mediaTypeFromRaw(String mediaType) {
     case "video":
       return MediaType.VIDEO;
   }
-  return null;
+  return MediaType.IMAGE;
 }
 
 String mediaTypeToRaw(MediaType mediaType) {
   switch (mediaType) {
     case MediaType.IMAGE:
       return "image";
-      break;
     case MediaType.VIDEO:
       return "video";
   }
-  return null;
 }

@@ -12,12 +12,13 @@ class DBProvider {
 
   static final DBProvider db = DBProvider._();
 
-  Database _database;
+  Database? _database;
 
   Future<Database> get database async {
-    if (_database != null) return _database;
-    _database = await initDB();
-    return _database;
+    if (_database == null) {
+      _database = await initDB();
+    }
+    return _database!;
   }
 
   initDB() async {

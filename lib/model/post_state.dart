@@ -13,8 +13,8 @@ abstract class PostDataState extends PostState {
   final bool hasReachedMax;
 
   PostDataState({
-    this.posts,
-    this.hasReachedMax,
+    required this.posts,
+    required this.hasReachedMax,
   });
 
   @override
@@ -31,11 +31,11 @@ class PostFailure extends PostState {
 
 class PostRefresh extends PostDataState {
   PostRefresh({
-    List<Post> posts,
-    bool hasReachedMax,
+    required List<Post> posts,
+    required bool hasReachedMax,
   }) : super(posts: posts, hasReachedMax: hasReachedMax);
 
-  PostRefresh.fromPostSuccess(PostSuccess postSuccess)
+  PostRefresh.fromPostSuccess(PostDataState postSuccess)
       : super(
             posts: postSuccess.posts, hasReachedMax: postSuccess.hasReachedMax);
 
@@ -46,11 +46,11 @@ class PostRefresh extends PostDataState {
 
 class PostLoading extends PostDataState {
   PostLoading({
-    List<Post> posts,
-    bool hasReachedMax,
+    required List<Post> posts,
+    required bool hasReachedMax,
   }) : super(posts: posts, hasReachedMax: hasReachedMax);
 
-  PostLoading.fromPostSuccess(PostSuccess postSuccess)
+  PostLoading.fromPostSuccess(PostDataState postSuccess)
       : super(
             posts: postSuccess.posts, hasReachedMax: postSuccess.hasReachedMax);
 
@@ -61,13 +61,13 @@ class PostLoading extends PostDataState {
 
 class PostSuccess extends PostDataState {
   PostSuccess({
-    List<Post> posts,
-    bool hasReachedMax,
+    required List<Post> posts,
+    required bool hasReachedMax,
   }) : super(posts: posts, hasReachedMax: hasReachedMax);
 
   PostSuccess copyWith({
-    List<Post> posts,
-    bool hasReachedMax,
+    List<Post>? posts,
+    bool? hasReachedMax,
   }) {
     return PostSuccess(
       posts: posts ?? this.posts,

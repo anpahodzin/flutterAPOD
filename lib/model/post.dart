@@ -5,31 +5,32 @@ import 'package:flutter_basic_network/utils/youtube.dart';
 import 'media_type.dart';
 
 class Post extends Equatable {
-  final String copyright;
+  final String? copyright;
   final DateTime date;
   final String explanation;
   final String hdurl;
   final MediaType mediaType;
   final String title;
   final String url;
-  final String videoUrl;
+  final String? videoUrl;
   final bool favorite;
 
   Post({
     this.copyright,
-    this.date,
-    this.explanation,
-    this.hdurl,
-    this.mediaType,
-    this.title,
-    this.url,
+    required this.date,
+    required this.explanation,
+    required this.hdurl,
+    required this.mediaType,
+    required this.title,
+    required this.url,
     this.videoUrl,
-    this.favorite,
+    this.favorite = false,
   });
 
   factory Post.fromJson(Map<String, dynamic> rawPost) {
     final mediaType = mediaTypeFromRaw(rawPost['media_type']);
-    String hdurl, url, videoUrl;
+    String hdurl, url;
+    String? videoUrl;
     switch (mediaType) {
       case MediaType.IMAGE:
         hdurl = rawPost['hdurl'];
@@ -44,7 +45,7 @@ class Post extends Equatable {
         break;
     }
     return Post(
-      copyright: rawPost['copyright'],
+      copyright: rawPost['copyright'] ?? null,
       date: (rawPost['date'] as String).formatDateApod(),
       explanation: rawPost['explanation'],
       mediaType: mediaType,
@@ -52,7 +53,7 @@ class Post extends Equatable {
       hdurl: hdurl,
       url: url,
       videoUrl: videoUrl,
-      favorite: rawPost['favorite'],
+      favorite: rawPost['favorite'] ?? false,
     );
   }
 
@@ -69,7 +70,7 @@ class Post extends Equatable {
       );
 
   Map<String, dynamic> toStorageJson() {
-    final like = (favorite != null && favorite) ? 1 : 0;
+    final like = (favorite) ? 1 : 0;
     return {
       "copyright": copyright,
       "date": date.millisecondsSinceEpoch,

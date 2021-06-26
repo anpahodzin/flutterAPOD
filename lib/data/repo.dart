@@ -1,15 +1,14 @@
-import 'package:flutter_basic_network/data/database.dart';
+import 'package:flutter_basic_network/data/datasource/database.dart';
 import 'package:flutter_basic_network/data/network.dart';
 import 'package:flutter_basic_network/model/post.dart';
 import 'package:flutter_basic_network/model/post_state.dart';
-import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
 
 class PostRepository {
   final Network network;
   static const int POST_COUNT = 10;
 
-  PostRepository({@required this.network});
+  PostRepository({required this.network});
 
   final BehaviorSubject<PostState> postStateSubject =
       BehaviorSubject.seeded(PostInitial());
@@ -50,7 +49,7 @@ class PostRepository {
   }
 
   Future<void> refreshPost() {
-    final lastState = postStateSubject.value;
+    final lastState = postStateSubject.value as PostDataState;
     postStateSubject.value = PostRefresh.fromPostSuccess(lastState);
     return fetchPost();
   }
