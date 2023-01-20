@@ -1,4 +1,4 @@
-package com.example.flutter_basic_network
+package com.example.flutter_apod
 
 import io.flutter.embedding.android.FlutterActivity
 

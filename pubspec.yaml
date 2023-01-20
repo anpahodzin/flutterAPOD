@@ -1,5 +1,5 @@
-name: flutter_basic_network
-description: A new Flutter application.
+name: flutter_apod
+description: A Flutter NASA Astronomy Picture of the Day application.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
