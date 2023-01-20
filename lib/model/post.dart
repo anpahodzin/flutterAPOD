@@ -1,15 +1,15 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter_basic_network/utils/date.dart';
-import 'package:flutter_basic_network/utils/youtube.dart';
+import 'package:flutter_apod/utils/date.dart';
+import 'package:flutter_apod/utils/youtube.dart';
 
-import 'media_type.dart';
+import 'post_media_type.dart';
 
 class Post extends Equatable {
   final String? copyright;
   final DateTime date;
   final String explanation;
   final String hdurl;
-  final MediaType mediaType;
+  final PostType mediaType;
   final String title;
   final String url;
   final String? videoUrl;
@@ -24,25 +24,28 @@ class Post extends Equatable {
     required this.title,
     required this.url,
     this.videoUrl,
-    this.favorite = false,
+    required this.favorite,
   });
 
   factory Post.fromJson(Map<String, dynamic> rawPost) {
-    final mediaType = mediaTypeFromRaw(rawPost['media_type']);
+    final mediaType = PostType.fromRaw(rawPost['media_type']);
     String hdurl, url;
     String? videoUrl;
-    switch (mediaType) {
-      case MediaType.IMAGE:
+    switch (mediaType.name) {
+      case ImagePostType.NAME:
         hdurl = rawPost['hdurl'];
         url = rawPost['url'];
         break;
-      case MediaType.VIDEO:
+      case VideoPostType.NAME:
         hdurl = YoutubeParser.getImageLinkFromUrl(
             YoutubeParser.YOUTUBE_PREVIEW_HD, rawPost['url']);
         url = YoutubeParser.getImageLinkFromUrl(
             YoutubeParser.YOUTUBE_PREVIEW, rawPost['url']);
         videoUrl = rawPost['url'];
         break;
+      default:
+        hdurl = rawPost['hdurl'];
+        url = rawPost['url'];
     }
     return Post(
       copyright: rawPost['copyright'] ?? null,
@@ -61,7 +64,7 @@ class Post extends Equatable {
         copyright: rawPost['copyright'],
         date: DateTime.fromMillisecondsSinceEpoch(rawPost['date']),
         explanation: rawPost['explanation'],
-        mediaType: mediaTypeFromRaw(rawPost['media_type']),
+        mediaType: PostType.fromRaw(rawPost['media_type']),
         title: rawPost['title'],
         hdurl: rawPost['hdurl'],
         url: rawPost['url'],
@@ -76,7 +79,7 @@ class Post extends Equatable {
       "date": date.millisecondsSinceEpoch,
       "explanation": explanation,
       "hdurl": hdurl,
-      "media_type": mediaTypeToRaw(mediaType),
+      "media_type": mediaType.toRaw(),
       "title": title,
       "url": url,
       "videoUrl": videoUrl,

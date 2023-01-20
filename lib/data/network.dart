@@ -2,8 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:flutter_basic_network/model/post.dart';
-import 'package:flutter_basic_network/utils/date.dart';
+import 'package:flutter_apod/model/post.dart';
+import 'package:flutter_apod/utils/date.dart';
 import 'package:http/http.dart' as http;
 
 abstract class Network {

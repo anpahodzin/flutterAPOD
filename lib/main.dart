@@ -1,26 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_basic_network/data/network.dart';
-import 'package:flutter_basic_network/data/repo.dart';
-import 'package:flutter_basic_network/screen/home_page.dart';
-import 'package:http/http.dart' as http;
+import 'package:flutter_apod/di/main_component.dart';
+import 'package:flutter_apod/screen/home_page.dart';
 
-final PostRepository repository =
-    PostRepository(network: RemoteNetwork(httpClient: http.Client()));
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
 
-void main() {
-  runApp(MyApp());
+  final MainComponent appComponent = MainComponent();
+  await appComponent.init();
+  runApp(MyApp(appComponent));
 }
 
 class MyApp extends StatelessWidget {
+  final MainComponent appComponent;
+
+  MyApp(this.appComponent);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Infinite Scroll',
+      title: 'Flutter Apod',
       home: Scaffold(
         appBar: AppBar(
           title: Text('Posts'),
         ),
-        body: HomePage(repository: repository),
+        body: HomePage(repository: appComponent.dataModule.postRepository),
       ),
     );
   }

@@ -1,12 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_basic_network/data/repo.dart';
-import 'package:flutter_basic_network/model/post.dart';
-import 'package:flutter_basic_network/model/post_state.dart';
-import 'package:flutter_basic_network/utils/date.dart';
+import 'package:flutter_apod/data/post_repo_data.dart';
+import 'package:flutter_apod/model/post.dart';
+import 'package:flutter_apod/model/post_state.dart';
+import 'package:flutter_apod/utils/date.dart';
 
 class HomePage extends StatefulWidget {
-  final PostRepository repository;
+  final PostDataRepository repository;
 
   const HomePage({Key? key, required this.repository}) : super(key: key);
 
@@ -31,7 +31,7 @@ class _HomePageState extends State<HomePage> {
       key: refreshIndicatorKey,
       onRefresh: refresh,
       child: StreamBuilder(
-          stream: widget.repository.postStateSubject,
+          stream: widget.repository.getPostStream(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               final state = snapshot.data;

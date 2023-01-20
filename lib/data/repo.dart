@@ -1,7 +1,7 @@
-import 'package:flutter_basic_network/data/datasource/database.dart';
-import 'package:flutter_basic_network/data/network.dart';
-import 'package:flutter_basic_network/model/post.dart';
-import 'package:flutter_basic_network/model/post_state.dart';
+import 'package:flutter_apod/data/datasource/database.dart';
+import 'package:flutter_apod/data/network.dart';
+import 'package:flutter_apod/model/post.dart';
+import 'package:flutter_apod/model/post_state.dart';
 import 'package:rxdart/rxdart.dart';
 
 class PostRepository {
