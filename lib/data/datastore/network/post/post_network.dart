@@ -10,10 +10,6 @@ class PostNetwork {
 
   PostNetwork(this._client);
 
-  //todo fix it
-  static const String URL = "https://api.nasa.gov/planetary/apod";
-  static const String API_KEY = "dbdIhHLENzYvKlAdBvbUNqfn0LPZuUsoRyiw3fVU";
-
   Future<List<Post>> loadPosts(String startDate, String endDate) async {
     final url = Uri.parse(
         "$URL?api_key=$API_KEY&start_date=$startDate&end_date=$endDate");

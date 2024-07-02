@@ -36,20 +36,20 @@ class _HomePageState extends State<HomePage> {
             if (snapshot.hasData) {
               final state = snapshot.data;
               if (state is PostFailure) {
-                return Center(
+                return const Center(
                   child: Text('failed to fetch posts'),
                 );
               }
               if (state is PostDataState) {
                 if (state.posts.isEmpty) {
-                  return Center(
+                  return const Center(
                     child: Text('no posts'),
                   );
                 }
                 return ListView.builder(
                   itemBuilder: (BuildContext context, int index) {
                     return index >= state.posts.length
-                        ? BottomLoader()
+                        ? const BottomLoader()
                         : PostWidget(post: state.posts[index]);
                   },
                   itemCount: state.hasReachedMax
@@ -59,7 +59,7 @@ class _HomePageState extends State<HomePage> {
                 );
               }
             }
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           }),
@@ -87,12 +87,14 @@ class _HomePageState extends State<HomePage> {
 }
 
 class BottomLoader extends StatelessWidget {
+  const BottomLoader({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.center,
-      padding: EdgeInsets.all(8),
-      child: Center(
+      padding: const EdgeInsets.all(8),
+      child: const Center(
         child: SizedBox(
           width: 33,
           height: 33,
@@ -115,7 +117,7 @@ class PostWidget extends StatelessWidget {
     return AspectRatio(
       aspectRatio: 1.6,
       child: Card(
-        margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         elevation: 4,
         clipBehavior: Clip.antiAliasWithSaveLayer,
         child: Stack(children: [
@@ -134,8 +136,8 @@ class PostWidget extends StatelessWidget {
             alignment: Alignment.bottomLeft,
 //            color: (post.videoUrl == null) ? Colors.white : Colors.red,
             child: Container(
-              padding: EdgeInsets.only(top: 8),
-              decoration: BoxDecoration(
+              padding: const EdgeInsets.only(top: 8),
+              decoration: const BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.bottomCenter,
                   end: Alignment.topCenter,
@@ -171,9 +173,9 @@ class PostWidget extends StatelessWidget {
 }
 
 final GlobalKey<RefreshIndicatorState> refreshIndicatorKey =
-    new GlobalKey<RefreshIndicatorState>();
+    GlobalKey<RefreshIndicatorState>();
 
-final postWidgetStyle = TextStyle(
+const postWidgetStyle = TextStyle(
   fontSize: 10.0,
   color: Colors.white,
 );

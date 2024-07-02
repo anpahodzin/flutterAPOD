@@ -58,12 +58,12 @@ extension PostEntityExtension on Post {
 
 extension ToPost on List<PostEntity>{
   List<Post> toPost(){
-    return this.map((e) => e.toPost()).toList();
+    return map((e) => e.toPost()).toList();
   }
 }
 
 extension ToPostEntity on List<Post>{
   List<PostEntity> toPostEntity(){
-    return this.map((e) => e.toPostEntity()).toList();
+    return map((e) => e.toPostEntity()).toList();
   }
 }

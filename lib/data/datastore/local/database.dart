@@ -23,10 +23,7 @@ abstract class AppDatabase extends FloorDatabase {
   static AppDatabase? _database;
 
   static Future<AppDatabase> get appDatabase async {
-    if (_database == null) {
-      _database =
-          await $FloorAppDatabase.databaseBuilder('app_database.db').build();
-    }
+    _database ??= await $FloorAppDatabase.databaseBuilder('app_database.db').build();
     return _database!;
   }
 }

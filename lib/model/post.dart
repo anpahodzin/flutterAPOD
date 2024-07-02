@@ -15,7 +15,7 @@ class Post extends Equatable {
   final String? videoUrl;
   final bool favorite;
 
-  Post({
+  const Post({
     this.copyright,
     required this.date,
     required this.explanation,
@@ -48,7 +48,7 @@ class Post extends Equatable {
         url = rawPost['url'];
     }
     return Post(
-      copyright: rawPost['copyright'] ?? null,
+      copyright: rawPost['copyright'],
       date: (rawPost['date'] as String).formatDateApod(),
       explanation: rawPost['explanation'],
       mediaType: mediaType,

@@ -47,14 +47,14 @@ class PostDataRepository extends PostRepository {
           lastState is PostFailure ||
           lastState is PostRefresh) {
         final endDate = DateTime.now();
-        final startDate = endDate.add(Duration(days: -POST_COUNT));
+        final startDate = endDate.add(const Duration(days: -POST_COUNT));
         final posts = await retrievePosts(startDate, endDate);
         _postStateSubject.add(PostSuccess(posts, false));
       }
       if (lastState is PostSuccess && !lastState.hasReachedMax) {
         _postStateSubject.add(PostLoading.fromPostSuccess(lastState));
-        final endDate = lastState.posts.last.date.add(Duration(days: -1));
-        final startDate = endDate.add(Duration(days: -POST_COUNT));
+        final endDate = lastState.posts.last.date.add(const Duration(days: -1));
+        final startDate = endDate.add(const Duration(days: -POST_COUNT));
         final posts = await retrievePosts(startDate, endDate);
         final newState = posts.isEmpty
             ? lastState.copyWith(hasReachedMax: true)
@@ -69,6 +69,7 @@ class PostDataRepository extends PostRepository {
     }
   }
 
+  @override
   Future<void> refreshPost() async{
     final lastState = _postStateSubject.value as PostDataState;
     _postStateSubject.value = PostRefresh.fromPostSuccess(lastState);
@@ -76,6 +77,7 @@ class PostDataRepository extends PostRepository {
     return fetchPost();
   }
 
+  @override
   void dispose() {
     _postStateSubject.close();
   }

@@ -13,7 +13,7 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   final MainComponent appComponent;
 
-  MyApp(this.appComponent);
+  const MyApp(this.appComponent, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Apod',
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Posts'),
+          title: const Text('Posts'),
         ),
         body: HomePage(repository: appComponent.dataModule.postRepository),
       ),

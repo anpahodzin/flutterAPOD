@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_apod/model/post.dart';
 
 abstract class PostState extends Equatable {
-  PostState();
+  const PostState();
 
   @override
   List get props => [];
@@ -12,7 +12,7 @@ abstract class PostDataState extends PostState {
   final List<Post> posts;
   final bool hasReachedMax;
 
-  PostDataState(
+  const PostDataState(
     this.posts,
     this.hasReachedMax,
   );
@@ -26,11 +26,11 @@ class PostInitial extends PostState {}
 class PostFailure extends PostState {
   final String errorMessage;
 
-  PostFailure(this.errorMessage);
+  const PostFailure(this.errorMessage);
 }
 
 class PostRefresh extends PostDataState {
-  PostRefresh({
+  const PostRefresh({
     required List<Post> posts,
     required bool hasReachedMax,
   }) : super(posts, hasReachedMax);
@@ -44,10 +44,10 @@ class PostRefresh extends PostDataState {
 }
 
 class PostLoading extends PostDataState {
-  PostLoading(
-    List<Post> posts,
-    bool hasReachedMax,
-  ) : super(posts, hasReachedMax);
+  const PostLoading(
+    super.posts,
+    super.hasReachedMax,
+  );
 
   PostLoading.fromPostSuccess(PostDataState postSuccess)
       : super(postSuccess.posts, postSuccess.hasReachedMax);
@@ -58,10 +58,10 @@ class PostLoading extends PostDataState {
 }
 
 class PostSuccess extends PostDataState {
-  PostSuccess(
-    List<Post> posts,
-    bool hasReachedMax,
-  ) : super(posts, hasReachedMax);
+  const PostSuccess(
+    super.posts,
+    super.hasReachedMax,
+  );
 
   PostSuccess copyWith({
     List<Post>? posts,
