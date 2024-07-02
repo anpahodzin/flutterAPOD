@@ -1,12 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_basic_network/data/repo.dart';
-import 'package:flutter_basic_network/model/post.dart';
-import 'package:flutter_basic_network/model/post_state.dart';
-import 'package:flutter_basic_network/utils/date.dart';
+import 'package:flutter_apod/data/post_repo_data.dart';
+import 'package:flutter_apod/model/post.dart';
+import 'package:flutter_apod/model/post_state.dart';
+import 'package:flutter_apod/utils/date.dart';
 
 class HomePage extends StatefulWidget {
-  final PostRepository repository;
+  final PostDataRepository repository;
 
   const HomePage({Key? key, required this.repository}) : super(key: key);
 
@@ -31,25 +31,25 @@ class _HomePageState extends State<HomePage> {
       key: refreshIndicatorKey,
       onRefresh: refresh,
       child: StreamBuilder(
-          stream: widget.repository.postStateSubject,
+          stream: widget.repository.getPostStream(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               final state = snapshot.data;
               if (state is PostFailure) {
-                return Center(
+                return const Center(
                   child: Text('failed to fetch posts'),
                 );
               }
               if (state is PostDataState) {
                 if (state.posts.isEmpty) {
-                  return Center(
+                  return const Center(
                     child: Text('no posts'),
                   );
                 }
                 return ListView.builder(
                   itemBuilder: (BuildContext context, int index) {
                     return index >= state.posts.length
-                        ? BottomLoader()
+                        ? const BottomLoader()
                         : PostWidget(post: state.posts[index]);
                   },
                   itemCount: state.hasReachedMax
@@ -59,7 +59,7 @@ class _HomePageState extends State<HomePage> {
                 );
               }
             }
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           }),
@@ -87,12 +87,14 @@ class _HomePageState extends State<HomePage> {
 }
 
 class BottomLoader extends StatelessWidget {
+  const BottomLoader({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.center,
-      padding: EdgeInsets.all(8),
-      child: Center(
+      padding: const EdgeInsets.all(8),
+      child: const Center(
         child: SizedBox(
           width: 33,
           height: 33,
@@ -115,7 +117,7 @@ class PostWidget extends StatelessWidget {
     return AspectRatio(
       aspectRatio: 1.6,
       child: Card(
-        margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         elevation: 4,
         clipBehavior: Clip.antiAliasWithSaveLayer,
         child: Stack(children: [
@@ -134,8 +136,8 @@ class PostWidget extends StatelessWidget {
             alignment: Alignment.bottomLeft,
 //            color: (post.videoUrl == null) ? Colors.white : Colors.red,
             child: Container(
-              padding: EdgeInsets.only(top: 8),
-              decoration: BoxDecoration(
+              padding: const EdgeInsets.only(top: 8),
+              decoration: const BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.bottomCenter,
                   end: Alignment.topCenter,
@@ -171,9 +173,9 @@ class PostWidget extends StatelessWidget {
 }
 
 final GlobalKey<RefreshIndicatorState> refreshIndicatorKey =
-    new GlobalKey<RefreshIndicatorState>();
+    GlobalKey<RefreshIndicatorState>();
 
-final postWidgetStyle = TextStyle(
+const postWidgetStyle = TextStyle(
   fontSize: 10.0,
   color: Colors.white,
 );
