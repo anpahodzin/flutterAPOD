@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:flutter_apod/config/env.dart';
 import 'package:flutter_apod/model/post.dart';
 import 'package:flutter_apod/utils/date.dart';
 import 'package:http/http.dart' as http;
@@ -30,6 +31,9 @@ class RemoteNetwork extends Network {
   RemoteNetwork({required http.Client httpClient})
       : super(httpClient: httpClient);
 
+  // todo
+  static const String URL = Env.apodUrl;
+  static const String API_KEY = Env.apodApiKey;
 
   Future<List<Post>> loadPosts(DateTime startDate, DateTime endDate) async {
     final start = startDate.formatDateApod();

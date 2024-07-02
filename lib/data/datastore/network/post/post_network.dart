@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:flutter_apod/config/env.dart';
 import 'package:flutter_apod/data/datastore/network/network.dart';
 import 'package:flutter_apod/model/post.dart';
 
@@ -9,6 +10,10 @@ class PostNetwork {
   final Network _client;
 
   PostNetwork(this._client);
+
+  // todo
+  static const String URL = Env.apodUrl;
+  static const String API_KEY = Env.apodApiKey;
 
   Future<List<Post>> loadPosts(String startDate, String endDate) async {
     final url = Uri.parse(

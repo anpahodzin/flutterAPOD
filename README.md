@@ -14,3 +14,7 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+## Before running!
+- add `apod_api_key={secret key}` with a secret key for [API NASA](https://api.nasa.gov/) to `.env` file
+- generate `env.g.dart` file using the command `dart run build_runner build`
