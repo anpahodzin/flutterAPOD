@@ -1,6 +1,6 @@
 import 'package:floor/floor.dart';
-import 'package:flutter_apod/model/post.dart';
-import 'package:flutter_apod/model/post_media_type.dart';
+import 'package:flutter_apod/domain/post/model/post.dart';
+import 'package:flutter_apod/domain/post/model/post_media_type.dart';
 
 @entity
 class PostEntity {

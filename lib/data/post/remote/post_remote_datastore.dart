@@ -1,8 +1,8 @@
-import 'package:flutter_apod/data/datastore/network/post/post_network.dart';
-import 'package:flutter_apod/model/post.dart';
+import 'package:flutter_apod/data/post/remote/post_network.dart';
+import 'package:flutter_apod/domain/post/model/post.dart';
 import 'package:flutter_apod/utils/date.dart';
 
-import '../../post_datastore.dart';
+import '../post_datastore.dart';
 
 class PostRemoteDataStore implements PostDataStore {
   final PostNetwork _network;

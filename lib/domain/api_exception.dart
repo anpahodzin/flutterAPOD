@@ -1,11 +1,3 @@
-import 'package:http/http.dart' as http;
-
-class Network {
-  final http.Client client;
-
-  Network({required this.client});
-}
-
 class ApiException implements Exception {
   final String? message;
   final int code;

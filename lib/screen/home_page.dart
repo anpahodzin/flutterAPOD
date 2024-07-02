@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_apod/data/post_repo_data.dart';
-import 'package:flutter_apod/model/post.dart';
-import 'package:flutter_apod/model/post_state.dart';
+import 'package:flutter_apod/data/post/post_repo_data.dart';
+import 'package:flutter_apod/domain/post/model/post.dart';
+import 'package:flutter_apod/domain/post/model/post_state.dart';
 import 'package:flutter_apod/utils/date.dart';
 
 class HomePage extends StatefulWidget {
