@@ -1,0 +1,53 @@
+name: Deploy to GitHub Pages
+on:
+  push:
+    branches:
+      - release
+permissions:
+  contents: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  # Build job
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2 # Only works with v2
+      - name: Flutter Action
+        uses: subosito/flutter-action@v1
+      - name: Flutter GH Pages
+        uses: bluefireteam/flutter-gh-pages@v7
+
+#      - name: Checkout
+#        uses: actions/checkout@v3
+#
+#      - name: Install Java
+#        uses: actions/setup-java@v3
+#        with:
+#          distribution: 'zulu'
+#          java-version: 17
+
+#      - name: Update Username from Secrets
+#        run: echo "NEWS_API_KEY = ${{secrets.NEWS_API_KEY }}" > $GITHUB_WORKSPACE/local.properties
+
+#      - name: UpgradeYarnLock
+#        uses: gradle/gradle-build-action@v2
+#        with:
+#          arguments: :kotlinUpgradeYarnLock
+#
+#      - name: Build
+#        uses: gradle/gradle-build-action@v2
+#        with:
+#          arguments: :composeApp:jsBrowserDistribution
+#
+#      - name: Deploy browser app
+#        uses: JamesIves/github-pages-deploy-action@v4.5.0
+#        with:
+#          branch: gh-pages
+#          folder: composeApp/build/dist/js/productionExecutable
+#          clean: true
