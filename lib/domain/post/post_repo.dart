@@ -1,4 +1,4 @@
-import 'package:flutter_apod/model/post_state.dart';
+import 'package:flutter_apod/domain/post/model/post_state.dart';
 
 abstract class PostRepository {
 

@@ -1,10 +1,10 @@
 import 'dart:developer';
 
-import 'package:flutter_apod/data/datastore/local/post/model/post_entity.dart';
-import 'package:flutter_apod/data/datastore/local/post/post_dao.dart';
-import 'package:flutter_apod/model/post.dart';
+import 'package:flutter_apod/data/post/local/model/post_entity.dart';
+import 'package:flutter_apod/data/post/local/post_dao.dart';
+import 'package:flutter_apod/domain/post/model/post.dart';
 
-import '../../post_datastore.dart';
+import '../post_datastore.dart';
 
 class PostLocalDataStore implements PostDataStore {
   late PostDao dao;

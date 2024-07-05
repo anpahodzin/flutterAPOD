@@ -1,11 +1,11 @@
 import 'dart:async';
 
 import 'package:floor/floor.dart';
-import 'package:flutter_apod/data/datastore/local/post/model/post_entity.dart';
+import 'package:flutter_apod/data/post/local/model/post_entity.dart';
 //required for work
 import 'package:sqflite/sqflite.dart' as sqflite;
 
-import 'post/post_dao.dart';
+import '../post/local/post_dao.dart';
 
 part 'database.g.dart'; // the generated code will be there
 

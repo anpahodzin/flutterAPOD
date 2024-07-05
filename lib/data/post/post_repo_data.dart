@@ -1,7 +1,7 @@
-import 'package:flutter_apod/data/datastore/post_datastore.dart';
-import 'package:flutter_apod/data/post_repo.dart';
-import 'package:flutter_apod/model/post.dart';
-import 'package:flutter_apod/model/post_state.dart';
+import 'package:flutter_apod/data/post/post_datastore.dart';
+import 'package:flutter_apod/domain/post/model/post.dart';
+import 'package:flutter_apod/domain/post/model/post_state.dart';
+import 'package:flutter_apod/domain/post/post_repo.dart';
 import 'package:rxdart/rxdart.dart';
 
 class PostDataRepository extends PostRepository {

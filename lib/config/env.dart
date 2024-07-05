@@ -4,7 +4,8 @@ part 'env.g.dart';
 
 @Envied(path: '.env')
 final class Env {
-  static const String apodUrl = "https://api.nasa.gov/planetary/apod";
-  @EnviedField(varName: 'apod_api_key')
+  @EnviedField(varName: 'APOD_URL')
+  static const String apodUrl = _Env.apodUrl;
+  @EnviedField(varName: 'APOD_API_KEY')
   static const String apodApiKey = _Env.apodApiKey;
 }

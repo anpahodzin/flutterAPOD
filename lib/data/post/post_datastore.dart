@@ -1,4 +1,4 @@
-import 'package:flutter_apod/model/post.dart';
+import 'package:flutter_apod/domain/post/model/post.dart';
 
 abstract class PostDataStore{
 
